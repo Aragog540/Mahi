@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-image: url(bg1.jpg);
+    background-size: cover;
+    background-position: top center;  /* Starts showing from the top */
+    background-repeat: no-repeat;
+    background-attachment: scroll;  /* Changed from 'fixed' to 'scroll' */
+    min-height: 100vh;
+    position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: -1;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 0;
+        }
+        
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            color: #ff6b6b;
+        }
+        
+        /* Slider Styles */
+        .slider-container {
+            margin: 40px auto;
+            max-width: 800px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        
+        .slide {
+            min-width: 100%;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #333;
+            text-align: center;
+        }
+        
+        .slide h2 {
+            color: #FF69B4;
+            margin-bottom: 15px;
+        }
+        
+        .slide p {
+            line-height: 1.6;
+        }
+        
+        .slider-nav {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            margin: 0 5px;
+            cursor: pointer;
+        }
+        
+        .slider-dot.active {
+            background-color: #ff6b6b;
+        }
+        
+        /* Blogs Section */
+        .blogs-section {
+            margin: 50px 0;
+        }
+        
+        .blogs-section h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            color: #ff6b6b;
+        }
+        
+        .blogs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .blog-card {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+            color: #333;
+        }
+        
+        .blog-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .blog-content {
+            padding: 20px;
+        }
+        
+        .blog-card h3 {
+            color: #ff6b6b;
+            margin-bottom: 10px;
+        }
+        
+        .blog-card p {
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .read-more {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: #ff6b6b;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .read-more:hover {
+            background-color: #ff5252;
+        }
+        
+        /* Gallery Section */
+        .gallery-section {
+            margin: 50px 0;
+        }
+        
+        .gallery-section h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            color: #ff6b6b;
+        }
+
+        /* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 30px;
+    width: 80%;
+    max-width: 800px;
+    border-radius: 10px;
+    color: #333;
+    position: relative;
+    animation: modalOpen 0.4s;
+}
+
+@keyframes modalOpen {
+    from {opacity: 0; transform: translateY(-50px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    color: #ff6b6b;
+}
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .gallery-item {
+            height: 200px;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
+            background-color: rgba(224, 68, 130, 0.7);
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3rem;
+            }
+            
+            .blogs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>HAPPY BIRTHDAY MAHIMA!</h1>
+        </header>
+        
+        <!-- Slider Section -->
+        <div class="slider-container">
+            <div class="slider">
+                <div class="slide">
+                    <h2>Birthday Wishes</h2>
+                    <p>Wishing you a day filled with happiness and a year filled with joy Rani!. I wish and hope that all your dreams come true on this special day!</p>
+                </div>
+                <div class="slide">
+                    <h2>Celebration Time</h2>
+                    <p>Today is your day to celebrate! Make memories that will last a timeline with you. Enjoy every moment of this special day.</p>
+                </div>
+                <div class="slide">
+                    <h2>Many Happy Returns</h2>
+                    <p>A year older, wiser, and more wonderful! May this day be the start of your best year yet.</p>
+                </div>
+            </div>
+            <div class="slider-nav">
+                <div class="slider-dot active"></div>
+                <div class="slider-dot"></div>
+                <div class="slider-dot"></div>
+            </div>
+        </div>
+        
+        <!-- Blogs Section -->
+        <section class="blogs-section">
+            <h2>Birthday Messages</h2>
+            <div class="blogs-grid">
+                <div class="blog-card">
+                    <div class="blog-content">
+                        <h3>26th Arpil</h3>
+                        <p>A heartfelt birthday message overflowing with love, affection, and longing, celebrating the joy and magic you brings to my life. Though apart, the promise of a future celebration and endless love shines through.Click on Read More!</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </div>
+                </div>
+                <!-- Modal Popup -->
+<div class="modal" id="blogModal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h2 id="modalTitle">Blog Title</h2>
+        <div id="modalContent">
+            <!-- Blog content will appear here -->
+        </div>
+    </div>
+</div>
+                <div class="blog-card">
+                    <div class="blog-content">
+                        <h3>3rd May</h3>
+                        <p> The one-month letter, celebrating the cherished bond despite the distance, filled with heartfelt promises and gratitude for every shared moment. It’s a longing for togetherness that never goes.... Click on read More!</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </div>
+                </div>
+                <div class="blog-card">
+                    <div class="blog-content">
+                        <h3>Comin Sooooonnnn</h3>
+                        <p>Patience rani , tatari update korbo....</p>
+                        <a href="#" class="read-more">Read More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Gallery Section -->
+        <section class="gallery-section">
+            <h2>Photo Gallery</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="1.jpg" alt="Outing">
+                    <div class="gallery-caption">Outing</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="2.jpg" alt="Outing">
+                    <div class="gallery-caption">Outing</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="3.jpg" alt="Outing">
+                    <div class="gallery-caption">Outing</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="4.jpg" alt="Outing">
+                    <div class="gallery-caption">Outing</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="5.jpg" alt="Late Night Vid Calls">
+                    <div class="gallery-caption">Late Night Vid Calls</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="6.jpg" alt="Outing Group pic">
+                    <div class="gallery-caption">Outing Group pic</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="7.jpg" alt="Evening Walks">
+                    <div class="gallery-caption">Evening Walks</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="8.jpg" alt="Outing Group pic">
+                    <div class="gallery-caption">Reading Room</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="9.jpg" alt="Outing Group pic">
+                    <div class="gallery-caption">Late night vid calls</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="10.jpg" alt="Reading Room">
+                    <div class="gallery-caption">Reading Room</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="11.jpg" alt="Reading Room">
+                    <div class="gallery-caption">Reading Room</div>
+                </div>
+
+            </div>
+        </section>
+        
+        <footer>
+            <p>Crafted with love for you Mahima by your Bhudu!</p>
+        </footer>
+    </div>
+
+    <script>
+        // Slider functionality
+        const slider = document.querySelector('.slider');
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.slider-dot');
+        let currentSlide = 0;
+        const slideCount = slides.length;
+        
+        function showSlide(index) {
+            slider.style.transform = `translateX(-${index * 100}%)`;
+            
+            // Update dots
+            dots.forEach(dot => dot.classList.remove('active'));
+            dots[index].classList.add('active');
+            
+            currentSlide = index;
+        }
+        
+        // Click event for dots
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                showSlide(index);
+            });
+        });
+        
+        // Auto slide change
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % slideCount;
+            showSlide(currentSlide);
+        }, 5000);
+        
+        // Initially show first slide
+        showSlide(0);
+
+        // Modal functionality
+const modal = document.getElementById('blogModal');
+const modalTitle = document.getElementById('modalTitle');
+const modalContent = document.getElementById('modalContent');
+const closeBtn = document.querySelector('.close-btn');
+
+// Blog content data
+const blogs = {
+    blog1: {
+        title: "Happy Birthday Mahima",
+        content: "<p>To my Sweetest Rosogulla,<p><p>Happy Birthday to the girl who makes my world sweeter than any dessert ever could. Today is all about you—your laughter, your light, and the incredible way you make every ordinary moment feel like magic. Even though I can’t be there to celebrate with you in person, please know that my heart is right there beside u, cheering louder than anyone else.<p><p> Know that you are loved more than i can ever say and express through my words! I wish I could be there to see the candles glow on your cake, to watch your eyes sparkle when you make a wish, and to steal the first bite before you even get a chance. (Okay, maybe I’d let you have it… but only because it’s your special day.)<p><p> I wish I could hold ya hand, spin ya around, and whisper all the reasons you’re so extraordinary directly into your ear. But since I can’t, I’m sending this letter instead—packed with all the love, hugs, and silly kisses I’d be giving you if we were together.<p><p> You deserve the most amazing birthday—filled with joy, surprises, and maybe just a little too much cake. And even though we’re apart today, I promise you this: the next time I see you, we’re going to celebrate all over again. Double the cake, double the candles, and double the love.<p><p> Thank you for being you—the most beautiful, kind-hearted, and wonderfully chaotic person I know.<p><p> The world is brighter with you in it, and I’m the luckiest to call you mine.I love ya more than words can say.<p><p> Happy Birthday, my love.<p><p> Love you x infinity <p><p>Happiest Birthday<p><p> Yours lovingly <p><p>Bhuduuu<p>"
+    },
+    blog2: {
+        title: "One Month down , thousands more to come!",
+        content: "<p>Miss Rosogulla,<p><p>As I sit here, wrapped in the quiet of the night, my heart feels both full and restless—full because it’s been one whole month of loving you miss!!, and restless because I can’t reach out and hold you close. We are sitting in different cities at this moment, away from each other but the moments we shared have kept me going and motivated to keep working hard. A month may seem actually seem small to the world, but to me, it’s been a treasure load of little miracles—your endless stories echoing in my ears, your cute mishti voice softening the edges of my days, and the way you say Bhuduu like it’s something precious.<p><p>Distance is a cruel joke when all I want is to see is you along me right now your beautiful eyes crinkling when you smile, or to tease you by telling i had a desser alone just to hear you pretend to scold me. (I’d let you have the last rosogolla, though—maybe.) Even though we’re apart, I find you everywhere: in the songs I hum absentmindedly, in the silly jokes I save to tell you later, in the way my phone feels heavier when I’m waiting for your message.<p><p>Thank you for being my person—for the way you listen like my words matter, for the way you turn ordinary moments into something warm and golden. I miss you more than I can say, but I’m also so, so grateful for you. One month down, and I already can’t remember what life was like before you. Here’s to a thousand more months of us—of inside jokes, sleepy midnight calls, and love that feels like coming home.<p><p>Here are 7 promises from my side to you as we go ahead-<p><p>1. I will choose you every day, not just when it's easy.<p><p>2. I will try to understand your silence, not just your words.<p><p>3. I will respect your individuality while building a life with you.<p><p>4. I will try to communicate, even when it's uncomfortable.<p><p>5. I will protect your heart like it's my own.<p><p>6. I will grow with you, not apart from you.<p><p>7. I will honor our love, even in the smallest things.<p><p>Until I can see you again, know that I’m yours—completely, ridiculously, and always.<p><p>Yours loving <p><p>Bhudu<p>"
+    },
+    blog3: {
+        title: "Will be updated sooonnnn!",
+        content: "<p>Patience rani , tatari update korbo...."
+    }
+};
+
+// Add click events to all Read More buttons
+document.querySelectorAll('.read-more').forEach((btn, index) => {
+    btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const blogId = 'blog' + (index + 1);
+        modalTitle.textContent = blogs[blogId].title;
+        modalContent.innerHTML = blogs[blogId].content;
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden'; // Prevent scrolling behind modal
+    });
+});
+
+// Close modal when clicking X
+closeBtn.addEventListener('click', () => {
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+});
+
+// Close modal when clicking outside
+window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+});
+    </script>
+</body>
+</html>
